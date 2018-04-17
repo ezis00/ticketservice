@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.example.ticketservice.domain.valueobject.ChannelType;
 import com.example.ticketservice.domain.valueobject.Message;
 import com.example.ticketservice.domain.valueobject.User;
 import com.example.ticketservice.domain.valueobject.UserType;
@@ -79,8 +80,8 @@ public class Ticket extends Entity
         Ticket ticket = new Ticket();
         System.out.println(ticket.toStringWithId());
         ticket.getMessages().add(new Message("hello", System.currentTimeMillis()));
-        ticket.getUsers().add(new User(UserType.AGENT, "agent1"));
-        ticket.getUsers().add(new User(UserType.CUSTOMER, "customer1"));
+        ticket.getUsers().add(new User(UserType.AGENT, "agent1", ChannelType.PC));
+        ticket.getUsers().add(new User(UserType.CUSTOMER, "customer1", ChannelType.KAKAO));
         ticket.getMessages().add(new Message("hello", System.currentTimeMillis()));
         System.out.println(ticket);
     }

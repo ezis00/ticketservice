@@ -12,6 +12,7 @@ import com.example.ticketservice.domain.valueobject.User;
 
 public class TicketServiceImpl implements TicketService
 {
+    private PushService pushService = new PushServiceImpl();
     private Map<String, Ticket> tickets;
 
     public TicketServiceImpl()
@@ -38,6 +39,7 @@ public class TicketServiceImpl implements TicketService
     {
         ticket.addMessage(message);
         tickets.put(ticket.getId(), ticket);
+        pushService.push(ticket, message);
     }
 
     @Override

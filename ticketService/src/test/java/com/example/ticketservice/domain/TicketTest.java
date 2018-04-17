@@ -1,10 +1,12 @@
 package com.example.ticketservice.domain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.example.ticketservice.domain.entity.Image;
 import com.example.ticketservice.domain.entity.Ticket;
+import com.example.ticketservice.domain.valueobject.ChannelType;
 import com.example.ticketservice.domain.valueobject.Message;
 import com.example.ticketservice.domain.valueobject.MessageType;
 import com.example.ticketservice.domain.valueobject.User;
@@ -55,9 +57,10 @@ public class TicketTest
 
     private void talkStart()
     {
+        List<ChannelType> channelTypes = Arrays.asList(ChannelType.PC, ChannelType.ANDROID, ChannelType.IOS, ChannelType.KAKAO);
         for (int i = 0; i < MAX_CUSTOMER; i++)
         {
-            User customer = new User(UserType.CUSTOMER, "customer" + i);
+            User customer = new User(UserType.CUSTOMER, "customer" + i, channelTypes.get(i % channelTypes.size()));
             System.out.println("talkStart " + customer.getName());
             Ticket ticket = ticketService.start(customer);
             System.out.println("sendMessage " + customer.getName());
@@ -75,7 +78,7 @@ public class TicketTest
         List<User> agents = new ArrayList<>();
         for (int i = 1; i <= MAX_AGENTS; i++)
         {
-            User agent = new User(UserType.AGENT, "agent" + i);
+            User agent = new User(UserType.AGENT, "agent" + i, ChannelType.PC);
             System.out.println("login " + agent);
             agents.add(agent);
         }

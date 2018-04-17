@@ -4,11 +4,13 @@ public class User
 {
     private UserType type;
     private String name;
+    private ChannelType channelType;
 
-    public User(UserType type, String name)
+    public User(UserType type, String name, ChannelType channelType)
     {
         this.type = type;
         this.name = name;
+        this.channelType = channelType;
     }
 
     public UserType getType()
@@ -31,12 +33,23 @@ public class User
         this.name = name;
     }
 
+    public ChannelType getChannelType()
+    {
+        return channelType;
+    }
+
+    public void setChannelType(ChannelType channelType)
+    {
+        this.channelType = channelType;
+    }
+
     @Override
     public String toString()
     {
         return "User{" +
-                "type='" + type + '\'' +
+                "type=" + type +
                 ", name='" + name + '\'' +
+                ", channelType=" + channelType +
                 '}';
     }
 }
