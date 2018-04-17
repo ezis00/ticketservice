@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.example.ticketservice.domain.Message;
 import com.example.ticketservice.domain.Ticket;
@@ -15,9 +16,10 @@ public class TicketServiceImpl implements TicketService
 
     public TicketServiceImpl()
     {
-        this.tickets = new HashMap<String, Ticket>();
+        this.tickets = new HashMap<>();
     }
 
+    @Override
     public Ticket start(User customer)
     {
         Ticket ticket = new Ticket();
@@ -25,21 +27,28 @@ public class TicketServiceImpl implements TicketService
         return ticket;
     }
 
-    public Ticket start(User agent, String ticketId)
-    {
-        Ticket ticket = tickets.get(ticketId);
-        ticket.getUsers().add(agent);
-        return ticket;
-    }
-
+    @Override
     public void send(Ticket ticket, String message)
     {
-        ticket.getMessages().add(new Message(message, System.currentTimeMillis()));
+        send(ticket, new Message(message, System.currentTimeMillis()));
+    }
+
+    @Override
+    public void send(Ticket ticket, Message message)
+    {
+        ticket.addMessage(message);
         tickets.put(ticket.getId(), ticket);
     }
 
-    public Ticket receive(String ticketId)
+    @Override
+    public List<Ticket> receive(User user)
     {
-        return tickets.get(ticketId);
+        return tickets.values().stream().filter(ticket -> ticket.getUsers().contains(user)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Ticket> getTickets()
+    {
+        return new ArrayList<Ticket>(this.tickets.values());
     }
 }

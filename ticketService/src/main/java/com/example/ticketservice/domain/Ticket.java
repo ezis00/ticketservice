@@ -22,6 +22,11 @@ public class Ticket extends Entity
         this(UUID.randomUUID().toString());
     }
 
+    public void addMessage(Message message)
+    {
+        this.messages.add(message);
+    }
+
     public List<Message> getMessages()
     {
         return messages;
@@ -30,6 +35,11 @@ public class Ticket extends Entity
     public void setMessages(List<Message> messages)
     {
         this.messages = messages;
+    }
+
+    public void addUser(User user)
+    {
+        this.users.add(user);
     }
 
     public List<User> getUsers()

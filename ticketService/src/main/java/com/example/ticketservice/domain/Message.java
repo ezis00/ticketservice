@@ -4,11 +4,18 @@ public class Message
 {
     private String contents;
     private String datetime;
+    private MessageType messageType;
 
     public Message(String contents, String datetime)
     {
+        this(contents, datetime, MessageType.TEXT);
+    }
+
+    public Message(String contents, String datetime, MessageType messageType)
+    {
         this.contents = contents;
         this.datetime = datetime;
+        this.messageType = messageType;
     }
 
     public Message(String contents, long datetime)
@@ -42,6 +49,7 @@ public class Message
         return "Message{" +
                 "contents='" + contents + '\'' +
                 ", datetime='" + datetime + '\'' +
+                ", messageType=" + messageType +
                 '}';
     }
 }

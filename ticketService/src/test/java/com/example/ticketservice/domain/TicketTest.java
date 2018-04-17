@@ -3,6 +3,12 @@ package com.example.ticketservice.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.ticketservice.service.ImageService;
+import com.example.ticketservice.service.ImageServiceImpl;
+import com.example.ticketservice.service.KnowledgeService;
+import com.example.ticketservice.service.KnowledgeServiceImpl;
+import com.example.ticketservice.service.RouteService;
+import com.example.ticketservice.service.RouteServiceImpl;
 import com.example.ticketservice.service.TicketService;
 import com.example.ticketservice.service.TicketServiceImpl;
 import org.junit.Test;
@@ -11,46 +17,83 @@ public class TicketTest
 {
     private final int MAX_CUSTOMER = 10;
     private final int MAX_AGENTS = 5;
+    private final TicketService ticketService = new TicketServiceImpl();
+    private final ImageService imageService = new ImageServiceImpl();
+    private final KnowledgeService knowledgeService = new KnowledgeServiceImpl();
 
     @Test
     public void test()
     {
-        List<String> ticketIds = new ArrayList<String>();
+        initKnowledge();
 
-        TicketService ticketService = new TicketServiceImpl();
-        for (int i = 0; i < MAX_CUSTOMER; i++)
-        {
-            User customer = new User(UserType.CUSTOMER, "customer" + i);
-            System.out.println("write " + customer.getName());
-            Ticket ticket = ticketService.start(customer);
-            ticketIds.add(ticket.getId());
-            for (int j = 0; j < 5; j++)
-            {
-                ticketService.send(ticket, "test message" + j);
-            }
-        }
+        talkStart();
 
-        for (int i = 1; i <= MAX_AGENTS; i++)
+        RouteService routeService = new RouteServiceImpl();
+
+        List<User> agents = agentLogin();
+
+        routeService.route(ticketService.getTickets(), agents);
+
+        for (User agent : agents)
         {
-            User agent = new User(UserType.AGENT, "agent" + i);
-            agentSendTest(ticketService, agent, ticketIds.get(i * 2 - 2));
-            agentSendTest(ticketService, agent, ticketIds.get(i * 2 - 1));
+            agentSend(agent);
         }
     }
 
-    private void agentSendTest(TicketService ticketService, User agent, String ticketId)
+    private void initKnowledge()
     {
-        System.out.println("receive " + agent.getName());
+        System.out.println("initKnowledge");
+        knowledgeService.add("지식입니다1.");
+        knowledgeService.add("지식입니다2.");
+    }
 
-        Ticket ticket = ticketService.start(agent, ticketId);
-        for (Message message : ticket.getMessages())
+    private void talkStart()
+    {
+        for (int i = 0; i < MAX_CUSTOMER; i++)
         {
-            System.out.println(message);
+            User customer = new User(UserType.CUSTOMER, "customer" + i);
+            System.out.println("talkStart " + customer.getName());
+            Ticket ticket = ticketService.start(customer);
+            System.out.println("sendMessage " + customer.getName());
+            for (int j = 0; j < 5; j++)
+            {
+                ticketService.send(ticket, "test message" + j + " by " + customer.getName());
+            }
+            String imageId = imageService.upload(new Image("image contents by " + customer.getName()));
+            ticketService.send(ticket, new Message(imageId, Long.toString(System.currentTimeMillis()), MessageType.IMAGE));
         }
-        System.out.println("write " + agent.getName());
-        for (int j = 0; j < 5; j++)
+    }
+
+    private List<User> agentLogin()
+    {
+        List<User> agents = new ArrayList<>();
+        for (int i = 1; i <= MAX_AGENTS; i++)
         {
-            ticketService.send(ticket, "test message" + j);
+            User agent = new User(UserType.AGENT, "agent" + i);
+            System.out.println("login " + agent);
+            agents.add(agent);
+        }
+        return agents;
+    }
+
+    private void agentSend(User agent)
+    {
+        List<Ticket> tickets = ticketService.receive(agent);
+        for (Ticket ticket : tickets)
+        {
+            System.out.println("receive ticket " + ticket.getId() + " for " + agent.getName());
+            for (Message message : ticket.getMessages())
+            {
+                System.out.println(message);
+            }
+            System.out.println("sendMessage " + agent.getName());
+            for (int j = 0; j < 5; j++)
+            {
+                ticketService.send(ticket, "test message" + j + " by " + agent.getName());
+            }
+            String imageId = imageService.upload(new Image("image contents by " + agent.getName()));
+            ticketService.send(ticket, new Message(imageId, Long.toString(System.currentTimeMillis()), MessageType.IMAGE));
+            ticketService.send(ticket, knowledgeService.getAll().get(0).getContents());
         }
     }
 }
