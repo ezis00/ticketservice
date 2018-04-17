@@ -1,6 +1,6 @@
 package com.example.ticketservice.service;
 
-import com.example.ticketservice.domain.Image;
+import com.example.ticketservice.domain.entity.Image;
 
 public interface ImageService
 {

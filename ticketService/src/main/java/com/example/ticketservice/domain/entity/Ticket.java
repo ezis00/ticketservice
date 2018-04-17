@@ -1,8 +1,12 @@
-package com.example.ticketservice.domain;
+package com.example.ticketservice.domain.entity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import com.example.ticketservice.domain.valueobject.Message;
+import com.example.ticketservice.domain.valueobject.User;
+import com.example.ticketservice.domain.valueobject.UserType;
 
 public class Ticket extends Entity
 {

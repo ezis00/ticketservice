@@ -3,7 +3,7 @@ package com.example.ticketservice.service;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.example.ticketservice.domain.Image;
+import com.example.ticketservice.domain.entity.Image;
 
 public class ImageServiceImpl implements ImageService
 {

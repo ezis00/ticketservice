@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.example.ticketservice.domain.Knowledge;
+import com.example.ticketservice.domain.entity.Knowledge;
 
 public class KnowledgeServiceImpl implements KnowledgeService
 {

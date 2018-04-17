@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.example.ticketservice.domain.Message;
-import com.example.ticketservice.domain.Ticket;
-import com.example.ticketservice.domain.User;
+import com.example.ticketservice.domain.valueobject.Message;
+import com.example.ticketservice.domain.entity.Ticket;
+import com.example.ticketservice.domain.valueobject.User;
 
 public class TicketServiceImpl implements TicketService
 {

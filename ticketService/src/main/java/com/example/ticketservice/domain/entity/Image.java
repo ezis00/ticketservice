@@ -1,6 +1,8 @@
-package com.example.ticketservice.domain;
+package com.example.ticketservice.domain.entity;
 
 import java.util.UUID;
+
+import com.example.ticketservice.domain.entity.Entity;
 
 public class Image extends Entity
 {

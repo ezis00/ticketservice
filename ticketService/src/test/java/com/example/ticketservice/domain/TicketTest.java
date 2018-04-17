@@ -3,6 +3,12 @@ package com.example.ticketservice.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.ticketservice.domain.entity.Image;
+import com.example.ticketservice.domain.entity.Ticket;
+import com.example.ticketservice.domain.valueobject.Message;
+import com.example.ticketservice.domain.valueobject.MessageType;
+import com.example.ticketservice.domain.valueobject.User;
+import com.example.ticketservice.domain.valueobject.UserType;
 import com.example.ticketservice.service.ImageService;
 import com.example.ticketservice.service.ImageServiceImpl;
 import com.example.ticketservice.service.KnowledgeService;

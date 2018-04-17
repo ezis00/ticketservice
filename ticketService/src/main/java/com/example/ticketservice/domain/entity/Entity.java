@@ -1,4 +1,4 @@
-package com.example.ticketservice.domain;
+package com.example.ticketservice.domain.entity;
 
 public abstract class Entity
 {
