@@ -101,5 +101,16 @@ public class TicketTest
             ticketService.send(ticket, new Message(imageId, Long.toString(System.currentTimeMillis()), MessageType.IMAGE));
             ticketService.send(ticket, knowledgeService.getAll().get(0).getContents());
         }
+
+        System.out.println("receive by " + agent.getName());
+        List<Ticket> receive = ticketService.receive(agent);
+        for (Ticket ticket : receive)
+        {
+            System.out.println("receive ticket " + ticket.getId() + " for " + agent.getName());
+            for (Message message : ticket.getMessages())
+            {
+                System.out.println(message);
+            }
+        }
     }
 }
