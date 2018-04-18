@@ -3,20 +3,33 @@ package com.example.ticketservice.service;
 import java.util.List;
 
 import com.example.ticketservice.domain.entity.Ticket;
-import com.example.ticketservice.domain.valueobject.User;
+import com.example.ticketservice.domain.valueobject.Agent;
 
 public class RouteServiceImpl implements RouteService
 {
+    private TicketService ticketService;
+
     @Override
-    public void route(List<Ticket> tickets, List<User> agents)
+    public void setTicketService(TicketService ticketService)
     {
-        int agentSize = agents.size();
-        for (int i = 0; i < tickets.size(); i++)
+        this.ticketService = ticketService;
+    }
+
+    @Override
+    public void route(List<Agent> agents)
+    {
+        for (Agent agent : agents)
         {
-            Ticket ticket = tickets.get(i);
-            User agent = agents.get(i % agentSize);
-            System.out.println("route " + ticket.getId() + " -> " + agent.getName());
-            ticket.addUser(agent);
+            for (int i = 0; i < agent.getMaxTicketCount(); i++)
+            {
+                Ticket ticket = ticketService.getNextTicket();
+                if (ticket != null)
+                {
+                    System.out.println("route " + ticket.getId() + " -> " + agent.getName());
+                    ticket.addUser(agent);
+                    ticketService.apply(ticket);
+                }
+            }
         }
     }
 }

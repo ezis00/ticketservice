@@ -1,22 +1,25 @@
 package com.example.ticketservice.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.stream.Collectors;
 
-import com.example.ticketservice.domain.valueobject.Message;
 import com.example.ticketservice.domain.entity.Ticket;
+import com.example.ticketservice.domain.valueobject.Message;
 import com.example.ticketservice.domain.valueobject.User;
 
 public class TicketServiceImpl implements TicketService
 {
     private PushService pushService = new PushServiceImpl();
+    private Queue<Ticket> ticketQueue;
     private Map<String, Ticket> tickets;
 
     public TicketServiceImpl()
     {
+        this.ticketQueue = new LinkedList<>();
         this.tickets = new HashMap<>();
     }
 
@@ -24,7 +27,9 @@ public class TicketServiceImpl implements TicketService
     public Ticket start(User customer)
     {
         Ticket ticket = new Ticket();
-        tickets.put(ticket.getId(), ticket);
+        ticket.addUser(customer);
+//        tickets.put(ticket.getId(), ticket);
+        this.ticketQueue.add(ticket);
         return ticket;
     }
 
@@ -49,8 +54,21 @@ public class TicketServiceImpl implements TicketService
     }
 
     @Override
-    public List<Ticket> getTickets()
+    public Ticket getNextTicket()
     {
-        return new ArrayList<Ticket>(this.tickets.values());
+        return this.ticketQueue.poll();
+    }
+
+    @Override
+    public void changeQueueSize(int size)
+    {
+        System.out.println("change queue size : " + size);
+    }
+
+    @Override
+    public void apply(Ticket ticket)
+    {
+        System.out.println("apply " + ticket);
+        tickets.put(ticket.getId(), ticket);
     }
 }

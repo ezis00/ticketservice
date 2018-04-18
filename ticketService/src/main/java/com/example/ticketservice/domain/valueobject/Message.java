@@ -6,6 +6,11 @@ public class Message
     private String datetime;
     private MessageType messageType;
 
+    public Message(String contents)
+    {
+        this(contents, System.currentTimeMillis());
+    }
+
     public Message(String contents, String datetime)
     {
         this(contents, datetime, MessageType.TEXT);

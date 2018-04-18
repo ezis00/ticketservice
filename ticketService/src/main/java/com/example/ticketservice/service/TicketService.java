@@ -16,5 +16,9 @@ public interface TicketService
 
     List<Ticket> receive(User user);
 
-    List<Ticket> getTickets();
+    void apply(Ticket ticket);
+
+    Ticket getNextTicket();
+
+    void changeQueueSize(int size);
 }
