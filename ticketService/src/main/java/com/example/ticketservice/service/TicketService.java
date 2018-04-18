@@ -8,6 +8,8 @@ import com.example.ticketservice.domain.valueobject.User;
 
 public interface TicketService
 {
+    void setQueueService(QueueService queueService);
+
     Ticket start(User customer);
 
     void send(Ticket ticket, String message);

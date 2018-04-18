@@ -22,6 +22,8 @@ import com.example.ticketservice.service.KnowledgeService;
 import com.example.ticketservice.service.KnowledgeServiceImpl;
 import com.example.ticketservice.service.ManageService;
 import com.example.ticketservice.service.ManageServiceImpl;
+import com.example.ticketservice.service.QueueService;
+import com.example.ticketservice.service.QueueServiceImpl;
 import com.example.ticketservice.service.RouteService;
 import com.example.ticketservice.service.RouteServiceImpl;
 import com.example.ticketservice.service.TicketService;
@@ -41,9 +43,11 @@ public class TicketTest
     private final AccountService accountService = new AccountServiceImpl();
     private final ManageService manageService = new ManageServiceImpl();
     private final AdminService adminService = new AdminServiceImpl();
+    private final QueueService queueService = new QueueServiceImpl();
 
     @Before
     public void setup(){
+        ticketService.setQueueService(queueService);
         routeService.setTicketService(ticketService);
         manageService.setTicketService(ticketService);
         adminService.setAccountService(accountService);

@@ -14,13 +14,18 @@ import com.example.ticketservice.domain.valueobject.User;
 public class TicketServiceImpl implements TicketService
 {
     private PushService pushService = new PushServiceImpl();
-    private Queue<Ticket> ticketQueue;
+    private QueueService queueService;
     private Map<String, Ticket> tickets;
 
     public TicketServiceImpl()
     {
-        this.ticketQueue = new LinkedList<>();
         this.tickets = new HashMap<>();
+    }
+
+    @Override
+    public void setQueueService(QueueService queueService)
+    {
+        this.queueService = queueService;
     }
 
     @Override
@@ -29,7 +34,7 @@ public class TicketServiceImpl implements TicketService
         Ticket ticket = new Ticket();
         ticket.addUser(customer);
 //        tickets.put(ticket.getId(), ticket);
-        this.ticketQueue.add(ticket);
+        this.queueService.add(ticket);
         return ticket;
     }
 
@@ -56,7 +61,7 @@ public class TicketServiceImpl implements TicketService
     @Override
     public Ticket getNextTicket()
     {
-        return this.ticketQueue.poll();
+        return this.queueService.poll();
     }
 
     @Override
